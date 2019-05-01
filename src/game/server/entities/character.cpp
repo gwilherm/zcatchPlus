@@ -759,6 +759,14 @@ void CCharacter::Tick()
 	// handle Weapons
 	HandleWeapons();
 
+	// Eye emote
+	if (m_pPlayer->m_DefEmoteReset >= 0 && m_pPlayer->m_DefEmoteReset <= Server()->Tick())
+	{
+		m_pPlayer->m_DefEmoteReset = -1;
+		m_EmoteType = m_pPlayer->m_DefEmote = EMOTE_NORMAL;
+		m_EmoteStop = -1;
+	}
+
 	// Previnput
 	m_PrevInput = m_Input;
 
@@ -1074,7 +1082,7 @@ void CCharacter::Snap(int SnappingClient)
 	// set emote
 	if (m_EmoteStop < Server()->Tick())
 	{
-		m_EmoteType = EMOTE_NORMAL;
+		m_EmoteType = m_pPlayer->m_DefEmote;
 		m_EmoteStop = -1;
 	}
 

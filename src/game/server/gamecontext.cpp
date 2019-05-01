@@ -1510,6 +1510,12 @@ void CGameContext::OnMessage(int MsgID, CUnpacker *pUnpacker, int ClientID)
 			{
 				SendChatTarget(ClientID, "Hard Mode is disabled on this server.");
 			}
+			else if(str_comp_nocase_num(pMsg->m_pMessage+1, "emote ", 6) == 0)
+			{
+				char pEmoteType[256];
+				str_copy(pEmoteType, pMsg->m_pMessage + 6, 256);
+				EyeEmote(ClientID, pEmoteType);
+			}
 			else
 			{
 				SendChatTarget(ClientID, "Unknown command, try /info");
@@ -4182,3 +4188,58 @@ void CGameContext::BanIf(bool Condition, int ID, int TimeMinutes, std::string Re
 }
 
 
+void CGameContext::EyeEmote(int ClientID, char *args)
+{
+	CPlayer *pPlayer = m_apPlayers[ClientID];
+
+	if(pPlayer)
+	{
+		if(pPlayer->m_LastEyeEmote + g_Config.m_SvEyeEmoteChangeDelay * Server()->TickSpeed() >= Server()->Tick())
+			return;
+
+		char* pEmoteType = strtok(args, " ");
+		if(str_comp_nocase_num(pEmoteType, "surprise", 8) == 0)
+		{
+			pPlayer->m_DefEmote=EMOTE_SURPRISE;
+		}
+		else if (str_comp_nocase_num(pEmoteType, "normal", 6) == 0)
+		{
+			pPlayer->m_DefEmote=EMOTE_NORMAL;
+		}
+		else if(str_comp_nocase_num(pEmoteType, "blink", 5) == 0)
+		{
+			pPlayer->m_DefEmote=EMOTE_BLINK;
+		}
+		else if(str_comp_nocase_num(pEmoteType, "close", 5) == 0)
+		{
+			pPlayer->m_DefEmote=EMOTE_BLINK;
+		}
+		else if(str_comp_nocase_num(pEmoteType, "angry", 5) == 0)
+		{
+			pPlayer->m_DefEmote=EMOTE_ANGRY;
+		}
+		else if(str_comp_nocase_num(pEmoteType, "happy", 5) == 0)
+		{
+			pPlayer->m_DefEmote=EMOTE_HAPPY;
+		}
+		else if(str_comp_nocase_num(pEmoteType, "pain", 4) == 0)
+		{
+			pPlayer->m_DefEmote=EMOTE_PAIN;
+		}
+		else
+		{
+			SendChatTarget(ClientID, "No such emote.");
+			return;
+		}
+	}
+
+	int Duration = 1;
+
+	char* pDurationStr = strtok(NULL, " ");
+	if (pDurationStr != NULL)
+		Duration = atoi(pDurationStr);
+
+	pPlayer->m_DefEmoteReset = Server()->Tick()
+					+ Duration * Server()->TickSpeed();
+	pPlayer->m_LastEyeEmote = Server()->Tick();
+}

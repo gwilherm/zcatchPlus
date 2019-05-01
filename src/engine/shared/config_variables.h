@@ -99,6 +99,8 @@ MACRO_CONFIG_STR(SvAutoDemoPrefix, sv_auto_demo_prefix, 64, "autorecord", CFGFLA
 MACRO_CONFIG_STR(SvInputFifo, sv_input_fifo, 128, "", CFGFLAG_SERVER, "Fifo file to use as input for server console")
 /*teehistorian*/
 MACRO_CONFIG_INT(SvTeeHistorian, sv_tee_historian, 0, 0, 1, CFGFLAG_SERVER|CFGFLAG_NONTEEHISTORIC, "Activate the tee historian that writes complete gameplay data to disk (WARNING: This will use a lot of disk space)")
+/* Eye emote */
+MACRO_CONFIG_INT(SvEyeEmoteChangeDelay, sv_eye_emote_change_delay, 1, 0, 9999, CFGFLAG_SERVER, "The time in seconds between eye emoticons change")
 
 MACRO_CONFIG_STR(EcBindaddr, ec_bindaddr, 128, "localhost", CFGFLAG_ECON, "Address to bind the external console to. Anything but 'localhost' is dangerous")
 MACRO_CONFIG_INT(EcPort, ec_port, 0, 0, 0, CFGFLAG_ECON, "Port to use for the external console")

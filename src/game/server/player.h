@@ -667,6 +667,11 @@ public:
 
     // ######### afk kicking stuff end ##########
 
+	// Plus sutff
+	int m_LastEyeEmote;
+	int m_DefEmote;
+	int m_DefEmoteReset;
+
 private:
     CCharacter *m_pCharacter;
     CGameContext *m_pGameServer;
@@ -780,6 +785,7 @@ private:
     int m_ClientID;
     int m_Team;
     int m_PlayerEnteredServerOnTick{-1};
+
 };
 
 #endif

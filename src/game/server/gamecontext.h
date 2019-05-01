@@ -443,7 +443,8 @@ private:
 		return s;
 	}
 
-
+	// Plus stuff
+	void EyeEmote(int ClientID, char *args);
 };
 
 inline int CmaskAll() { return -1; }
